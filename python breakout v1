@@ -1,0 +1,100 @@
+# import the pygame library and initialize the gamn engine
+import pygame
+pygame.init()
+
+class brick:
+    def __init__(self, xpos, ypos):
+        self.xpos = xpos
+
+#open a new window, caption it Break out
+screen = pygame.display.set_mode((900,700))
+pygame.display.set_caption("Break out")
+
+#heres the variable that runs our game loop
+doExit = False
+
+#the clock will be used to control how fast the screen updates
+clock = pygame.time.Clock()
+
+#these variables to hold paddle position
+#these go above game loop
+p1x = 400
+p1y = 650
+
+
+
+
+#ball variables
+bx = 350 #x position
+by = 250 #y position
+bVx = 5 #x position
+bVy = 5 #y position
+
+
+while not doExit: #game loop-------------
+   
+    #event queue stuff
+    clock.tick(60) #set the fps
+   
+    for event in pygame.event.get(): #check if user did something
+        if event.type == pygame.QUIT: #check if user clicked close
+              doExit= True # flag that we are done so we exit game loop
+             
+    #game logic will go here------------
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_a]:
+        p1x-=12
+    if keys[pygame.K_d]:
+        p1x+=12
+       
+    
+        
+        
+    #ball movement     
+    bx += bVx
+    by += bVy
+    #reflect ball of side walls of screen
+    if bx < 0: 
+        bVx *= -1
+        
+    if bx + 20 > 900:
+        bVx *= -1
+        
+    if by < 0 or by + 20 > 700:
+        bVy *= -1
+
+    #ball paddle refelction
+    if bx < p1x + 125 and by+20 > p1y and bx+20 > p1x:
+        bVy *= -1
+        print("paddle hit!")
+        
+        
+    
+    
+
+             
+    #render section will go here----------------        
+    screen.fill((0,0,0))
+    
+    
+    #display score
+    
+   
+   
+    #draw a rectangle
+    pygame.draw.rect(screen, (255, 255, 255), (p1x, p1y, 125, 20), 10)
+   
+   
+    pygame.draw.rect(screen, (255, 255, 255), (bx, by, 30, 30),  20)
+    
+    #drag a line down the middle
+    
+   
+    #update the screen
+    pygame.display.flip()
+             
+             
+               
+#end game loop
+             
+pygame.quit() #when game is done close 
